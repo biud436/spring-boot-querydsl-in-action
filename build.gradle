@@ -11,7 +11,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.biud436.rest'
+group = 'com.biud436'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 

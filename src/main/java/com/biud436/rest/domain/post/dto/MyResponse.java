@@ -1,8 +1,8 @@
-package com.biud436.rest.rest.domain.post.dto;
+package com.biud436.rest.domain.post.dto;
 
 import java.util.List;
 
-import com.biud436.rest.rest.domain.post.MyPost;
+import com.biud436.rest.domain.post.MyPost;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.biud436.rest.rest.common;
+package com.biud436.rest.common;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

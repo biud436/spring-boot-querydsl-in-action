@@ -1,13 +1,9 @@
-package com.biud436.rest.rest.domain.post;
-
-import java.util.List;
-
-import javax.annotation.PostConstruct;
+package com.biud436.rest.domain.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.biud436.rest.rest.domain.post.dto.MyResponse;
+import com.biud436.rest.domain.post.dto.MyResponse;
 
 import lombok.RequiredArgsConstructor;
 

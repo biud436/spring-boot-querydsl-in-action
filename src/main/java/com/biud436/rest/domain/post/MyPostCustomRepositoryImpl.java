@@ -1,18 +1,14 @@
-package com.biud436.rest.rest.domain.post;
+package com.biud436.rest.domain.post;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.biud436.rest.rest.domain.post.dto.MyResponse;
-import com.querydsl.jpa.impl.JPAQuery;
+import com.biud436.rest.domain.post.dto.MyResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import lombok.RequiredArgsConstructor;
 
 @Repository
 public class MyPostCustomRepositoryImpl implements MyPostCustomRepository {

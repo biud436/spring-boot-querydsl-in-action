@@ -1,4 +1,4 @@
-package com.biud436.rest.rest.domain.post;
+package com.biud436.rest.domain.post;
 
 import javax.persistence.*;
 
