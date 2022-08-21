@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.biud436.rest.common.PostResponse;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +24,7 @@ public class MyPostService {
 //         postRepository.save(MyPost.builder().title("title3").build());
 //     }
 
+    @Transactional(readOnly = true)
     public PostResponse<MyPost> findByTitleByUsingQueryDSL(String title) {
         return postRepository.findByTitle(title);
     }
