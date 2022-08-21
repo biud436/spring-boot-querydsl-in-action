@@ -5,6 +5,8 @@ import java.util.List;
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.post.entity.QMyPost;
 import com.querydsl.jpa.impl.JPAQuery;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import com.biud436.rest.web.api.dto.PostResponse;

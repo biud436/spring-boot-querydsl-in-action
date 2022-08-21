@@ -1,5 +1,7 @@
 package com.biud436.rest.web.api;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,10 +11,10 @@ import com.biud436.rest.web.api.dto.PostResponse;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ApiController {
 
-    @Autowired
-    private MyPostService myPostService;
+    private final MyPostService myPostService;
     
     @GetMapping()
     public String index() {
