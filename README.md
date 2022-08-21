@@ -13,3 +13,5 @@ Nest.js의 경험을 가지고 자바 스프링 프레임워크의 JPA를 체험
 H2의 경우, 그 커넥션과 SQL Write 특성이 노드의 TypeORM과는 전혀 달랐습니다. 영속성 컨텍스트라는 것의 존재로 인한 것인지, 중간에 IDE를 바꿔서 생긴 현상인지 모르겠으나 톰캣을 종료할 경우, MariaDB에 실제로 테이블이 존재하지 않는데도 존재한다고 표시되었으며 어딘가에 정보가 영구적으로 남아있거나 캐시가 되는 현상이 있었습니다.
 
 ddl-auto의 create(테이블 자동 생성)의 경우, DROP Table 등의 문제로 TypeORM과 달리 쓰지 않는 것이 더 좋다고 판단되었습니다.
+
+> ddl-auto를 create로 하면 매번 DROP TABLE 되고, CREATE TABLE이 된다. 
