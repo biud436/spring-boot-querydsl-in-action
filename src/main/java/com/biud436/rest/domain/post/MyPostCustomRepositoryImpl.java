@@ -1,9 +1,11 @@
 package com.biud436.rest.domain.post;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,11 +25,15 @@ public class MyPostCustomRepositoryImpl implements MyPostCustomRepository {
     }
 
     @Override
-    public MyResponse<MyPost> findByTitle(String title) {
+    public MyResponse<MyPost> findByTitle(Optional<String> title) {
 
-        List<MyPost> list = jpaQueryFactory.selectFrom(QMyPost.myPost)
-//                .where(QMyPost.myPost.title.eq(title))
-                .fetch();
+        JPAQuery<MyPost> qb = jpaQueryFactory.selectFrom(QMyPost.myPost);
+
+        if(title.get() != null) {
+            qb.where(QMyPost.myPost.title.eq(title.get()));
+        }
+
+        List<MyPost> list = qb.fetch();
 
         return MyResponse.builder().data(list).message("정상 처리되었습니다").build();
     }

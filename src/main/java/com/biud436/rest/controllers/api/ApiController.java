@@ -1,11 +1,15 @@
 package com.biud436.rest.controllers.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.biud436.rest.domain.post.MyPost;
 import com.biud436.rest.domain.post.MyPostService;
 import com.biud436.rest.domain.post.dto.MyResponse;
+import org.springframework.web.client.HttpServerErrorException;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -19,21 +23,15 @@ public class ApiController {
         return "API 라우트 테스트";
     }
 
-    // @GetMapping("/posts")
-    // public MyResponse<MyPost> findByTitle(String title) {
-
-    //     MyResponse<MyPost> response = MyResponse.builder()
-    //             .data(myPostService.findByTitle(title))
-    //             .message("정상 처리")
-    //             .build();
-
-    //     return response;
-    // }
-
     @GetMapping("/posts")
-    @ResponseBody
-    public MyResponse<MyPost> findByTitleByUsingQueryDSL(@RequestParam(value = "title") String title) {
-        return myPostService.findByTitleByUsingQueryDSL(title);
+    public MyResponse<MyPost> findByTitleByUsingQueryDSL(@RequestParam(value = "title", required = false) Optional<String> title) {
+        try {
+            MyResponse<MyPost> response = myPostService.findByTitleByUsingQueryDSL(title);
+
+            return response;
+        } catch(Error e) {
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST);
+        }
     }
     
 }
