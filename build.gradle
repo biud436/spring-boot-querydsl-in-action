@@ -1,32 +1,64 @@
+buildscript {
+   ext {
+      queryDslVersion = "5.0.0"
+   }
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.7.3'
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 	id 'java'
 }
 
 group = 'com.biud436.rest'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '8'
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+
+	querydsl.extendsFrom compileClasspath
 }
 
 repositories {
 	mavenCentral()
-}
+} 
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+   implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+   annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+//	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+//	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.h2database:h2:1.4.199'
+
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+   jpa = true
+   querydslSourcesDir = querydslDir
+}
+sourceSets {
+   main.java.srcDir querydslDir
+}
+configurations {
+   querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+   options.annotationProcessorPath = configurations.querydsl
 }
 
 tasks.named('test') {
