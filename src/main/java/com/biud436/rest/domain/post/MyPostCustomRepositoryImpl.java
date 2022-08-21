@@ -29,9 +29,7 @@ public class MyPostCustomRepositoryImpl implements MyPostCustomRepository {
 
         JPAQuery<MyPost> qb = jpaQueryFactory.selectFrom(QMyPost.myPost);
 
-        if(title.get() != null) {
-            qb.where(QMyPost.myPost.title.eq(title.get()));
-        }
+        qb.where(QMyPost.myPost.title.contains(title.get()));
 
         List<MyPost> list = qb.fetch();
 
