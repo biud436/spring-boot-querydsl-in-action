@@ -1,4 +1,4 @@
-package com.biud436.rest.rest;
+package com.biud436.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
