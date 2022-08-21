@@ -1,11 +1,11 @@
-package com.biud436.rest.controllers.api;
+package com.biud436.rest.web.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.post.MyPostService;
-import com.biud436.rest.common.PostResponse;
+import com.biud436.rest.web.api.dto.PostResponse;
 
 @RestController
 @RequestMapping("/api")

@@ -1,4 +1,4 @@
-package com.biud436.rest.common;
+package com.biud436.rest.web.api.dto;
 
 import java.util.List;
 

@@ -2,16 +2,12 @@ package com.biud436.rest.domain.post.repository;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.post.entity.QMyPost;
-import com.biud436.rest.domain.post.repository.MyPostCustomRepository;
 import com.querydsl.jpa.impl.JPAQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.biud436.rest.common.PostResponse;
+import com.biud436.rest.web.api.dto.PostResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository

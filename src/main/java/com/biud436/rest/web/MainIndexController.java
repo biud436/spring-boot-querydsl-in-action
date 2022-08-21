@@ -1,4 +1,4 @@
-package com.biud436.rest.controllers;
+package com.biud436.rest.web;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

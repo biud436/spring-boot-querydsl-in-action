@@ -5,7 +5,7 @@ import com.biud436.rest.domain.post.repository.MyPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.biud436.rest.common.PostResponse;
+import com.biud436.rest.web.api.dto.PostResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
