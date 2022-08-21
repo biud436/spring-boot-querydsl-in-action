@@ -22,8 +22,6 @@ public class ApiController {
     @GetMapping("/posts")
     public PostResponse<MyPost> findByTitleByUsingQueryDSL(@RequestParam(value = "title", required = false) String title) {
 
-        System.out.println(title);
-
         PostResponse<MyPost> response = myPostService.findByTitleByUsingQueryDSL(title);
 
         return response;
