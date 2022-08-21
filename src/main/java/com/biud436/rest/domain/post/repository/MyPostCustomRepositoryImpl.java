@@ -13,13 +13,10 @@ import com.biud436.rest.web.api.dto.PostResponse;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
+@RequiredArgsConstructor
 public class MyPostCustomRepositoryImpl implements MyPostCustomRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    public MyPostCustomRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
-        this.jpaQueryFactory = jpaQueryFactory;
-    }
 
     @Override
     public PostResponse<MyPost> findByTitle(String title) {
