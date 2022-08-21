@@ -25,11 +25,13 @@ public class MyPostCustomRepositoryImpl implements MyPostCustomRepository {
     }
 
     @Override
-    public MyResponse<MyPost> findByTitle(Optional<String> title) {
+    public MyResponse<MyPost> findByTitle(String title) {
 
         JPAQuery<MyPost> qb = jpaQueryFactory.selectFrom(QMyPost.myPost);
 
-        qb.where(QMyPost.myPost.title.contains(title.get()));
+        if(title != null) {
+            qb.where(QMyPost.myPost.title.contains(title));
+        }
 
         List<MyPost> list = qb.fetch();
 

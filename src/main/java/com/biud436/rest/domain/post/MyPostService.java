@@ -23,7 +23,7 @@ public class MyPostService {
 //         postRepository.save(MyPost.builder().title("title3").build());
 //     }
 
-    public MyResponse<MyPost> findByTitleByUsingQueryDSL(Optional<String> title) {
+    public MyResponse<MyPost> findByTitleByUsingQueryDSL(String title) {
         return postRepository.findByTitle(title);
     }
 

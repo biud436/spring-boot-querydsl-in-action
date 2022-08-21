@@ -1,5 +1,6 @@
 package com.biud436.rest.controllers.api;
 
+import jdk.jfr.internal.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,12 @@ public class ApiController {
 
     @GetMapping("/posts")
     public MyResponse<MyPost> findByTitleByUsingQueryDSL(@RequestParam(value = "title", required = false) String title) {
-        try {
-            MyResponse<MyPost> response = myPostService.findByTitleByUsingQueryDSL(Optional.of(title));
 
-            return response;
-        } catch(Error e) {
-            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST);
-        }
+        System.out.println(title);
+
+        MyResponse<MyPost> response = myPostService.findByTitleByUsingQueryDSL(title);
+
+        return response;
     }
     
 }
