@@ -2,7 +2,7 @@
 
 Nest.js의 경험을 가지고 자바 스프링 프레임워크의 JPA를 체험하기 위해 급하게 만든 프로젝트로 DB에서 테이블을 SELECT하여 LIST를 JSON으로 반환하는 기능 밖에는 없습니다.
 
-## 후기 (1일차)
+## 2022.08.21 (1일차)
 
 초기 프로젝트 세팅을 Visual Studio Code(JPA + QueryDSL + Lombok)로 하였고 진행하였으나 QueryDSL 추가 후, 클래스를 찾을 수 없는 진행할 수 없는 문제(`.classpath 문제`)로 인하여 인텔리제이로 전환하였습니다.
 
