@@ -3,12 +3,15 @@ package com.biud436.rest.domain.post;
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.post.repository.MyPostRepository;
 import com.biud436.rest.web.api.dto.CreatePostDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.biud436.rest.web.api.dto.PostResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -17,8 +20,10 @@ public class MyPostServiceImpl implements MyPostService {
     private final MyPostRepository postRepository;
 
     @Transactional(readOnly = true)
-    public PostResponse<MyPost> findByTitle(String title) {
-        return postRepository.findOneByTitle(title);
+    public ResponseEntity<List<MyPost>> findByTitle(String title) {
+        List<MyPost> posts = postRepository.findByTitle(title).orElseThrow(() -> new IllegalArgumentException("포스트를 찾을 수 없습니다"));
+
+        return ResponseEntity.ok().body(posts);
     }
 
     @Transactional

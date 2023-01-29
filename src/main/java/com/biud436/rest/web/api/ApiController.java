@@ -14,6 +14,7 @@ import com.biud436.rest.domain.post.MyPostServiceImpl;
 import com.biud436.rest.web.api.dto.PostResponse;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,11 +38,9 @@ public class ApiController {
 
     @Operation(summary = "포스트 제목으로 조회", description = "특정 제목의 포스트를 검색합니다.")
     @GetMapping("/posts")
-    public ResponseEntity<PostResponse<MyPost>> getPostByTitle(@RequestParam(value = "title", required = false) String title) {
+    public ResponseEntity<List<MyPost>> getPostByTitle(@RequestParam(value = "title", required = false) String title) {
 
-        PostResponse<MyPost> response = myPostService.findByTitle(title);
-
-        return ResponseEntity.ok(response);
+        return myPostService.findByTitle(title);
     }
 
     @Operation(summary = "포스트 저장", description = "새로운 포스트를 저장합니다")
