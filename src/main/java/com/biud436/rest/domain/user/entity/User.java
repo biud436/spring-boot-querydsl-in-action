@@ -4,6 +4,7 @@ import com.biud436.rest.domain.common.entity.BaseTimeEntity;
 import com.biud436.rest.domain.post.entity.MyPost;
 
 import com.biud436.rest.domain.profile.entity.Profile;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class User extends BaseTimeEntity {
     private String userName;
 
     @Column(nullable = false, name = "USER_PASSWORD")
+    @JsonIgnore
     private String password;
 
     @OneToMany(mappedBy = "user")
