@@ -2,7 +2,7 @@ package com.biud436.rest.domain.post;
 
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.post.repository.MyPostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.biud436.rest.web.api.dto.CreatePostDto;
 import org.springframework.stereotype.Service;
 
 import com.biud436.rest.web.api.dto.PostResponse;
@@ -18,7 +18,11 @@ public class MyPostService {
 
     @Transactional(readOnly = true)
     public PostResponse<MyPost> findByTitleByUsingQueryDSL(String title) {
-        return postRepository.findByTitle(title);
+        return postRepository.findOneByTitle(title);
     }
 
+    @Transactional
+    public MyPost save(CreatePostDto postDto) {
+        return postRepository.save(postDto.toEntity());
+    }
 }
