@@ -1,17 +1,16 @@
 package com.biud436.rest.web.api;
 
+import com.biud436.rest.domain.post.MyPostService;
 import com.biud436.rest.web.api.dto.CreatePostDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.biud436.rest.domain.post.entity.MyPost;
-import com.biud436.rest.domain.post.MyPostService;
+import com.biud436.rest.domain.post.MyPostServiceImpl;
 import com.biud436.rest.web.api.dto.PostResponse;
 
 import java.util.HashMap;
@@ -40,7 +39,7 @@ public class ApiController {
     @GetMapping("/posts")
     public ResponseEntity<PostResponse<MyPost>> getPostByTitle(@RequestParam(value = "title", required = false) String title) {
 
-        PostResponse<MyPost> response = myPostService.findByTitleByUsingQueryDSL(title);
+        PostResponse<MyPost> response = myPostService.findByTitle(title);
 
         return ResponseEntity.ok(response);
     }

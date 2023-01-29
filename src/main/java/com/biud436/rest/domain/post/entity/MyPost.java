@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import javax.persistence.*;
 
 import com.biud436.rest.domain.common.entity.BaseTimeEntity;
+import com.biud436.rest.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,8 +23,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyPost extends BaseTimeEntity {
-    
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "POST_ID")
     private Long id;
 
     @Column(nullable = false, name = "TITLE")
@@ -32,4 +35,7 @@ public class MyPost extends BaseTimeEntity {
     @Column(nullable = false, name = "CONTENT")
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 }
