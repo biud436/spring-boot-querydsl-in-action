@@ -32,7 +32,7 @@ public class MyPost extends BaseTimeEntity {
     @Column(nullable = false, name = "TITLE")
     private String title;
 
-    @Column(nullable = false, name = "CONTENT")
+    @Column(nullable = false, name = "CONTENT", columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne
