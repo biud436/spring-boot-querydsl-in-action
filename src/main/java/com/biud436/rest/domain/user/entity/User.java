@@ -35,7 +35,7 @@ public class User extends BaseTimeEntity {
     private List<MyPost> posts;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "PROFILE_ID")
     private Profile profile;
 
     @Column(nullable = false, name = "ROLE")
