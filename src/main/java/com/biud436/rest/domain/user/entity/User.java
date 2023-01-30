@@ -17,6 +17,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,10 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<MyPost> posts;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "USER_ID")
     private Profile profile;
+
+    @Column(nullable = false, name = "ROLE")
+    private String role;
 }

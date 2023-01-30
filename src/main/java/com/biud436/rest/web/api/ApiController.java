@@ -1,12 +1,16 @@
 package com.biud436.rest.web.api;
 
 import com.biud436.rest.domain.post.MyPostService;
+import com.biud436.rest.domain.user.UserService;
+import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.web.api.dto.CreatePostDto;
+import com.biud436.rest.web.api.dto.CreateUserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.biud436.rest.domain.post.entity.MyPost;
@@ -23,6 +27,12 @@ import java.util.Map;
 public class ApiController {
 
     private final MyPostService myPostService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final UserService userService;
+
+    private final ApiService apiService;
 
     @Operation(summary = "테스트", description = "테스트 API")
     @ApiResponses({
@@ -48,5 +58,15 @@ public class ApiController {
     public ResponseEntity<MyPost> savePost(@RequestBody CreatePostDto postDto) {
         return ResponseEntity.ok(myPostService.save(postDto));
     }
-    
+
+    @Operation(summary = "회원 가입", description = "회원 가입 (테스트)")
+    @PostMapping("/users")
+    public boolean createUser(@RequestBody CreateUserDto createUserDto) {
+        User user = createUserDto.toEntity();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userService.createUser(user);
+
+        return true;
+    }
 }

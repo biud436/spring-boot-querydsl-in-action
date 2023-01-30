@@ -15,22 +15,30 @@ public class CreateUserDto {
 
     private String profileName;
 
+    private String role;
+
     @Builder
-    public CreateUserDto(String userName, String password, String profileName) {
+    public CreateUserDto(String userName, String password, String profileName, String role) {
         this.userName = userName;
         this.password = password;
         this.profileName = profileName;
+        this.role = role;
     }
 
     public User toEntity() {
-        return User.builder()
+        User user = User.builder()
                 .userName(userName)
                 .password(password)
-                .profile(
-                        Profile.builder()
-                                .name(profileName)
-                                .build()
-                )
+                .role(role)
                 .build();
+
+        Profile profile = Profile.builder()
+                .user(user)
+                .name(profileName)
+                .build();
+
+        user.setProfile(profile);
+
+        return user;
     }
 }
