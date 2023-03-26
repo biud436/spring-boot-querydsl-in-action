@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
+
 @Getter
 @NoArgsConstructor
 @Schema(description = "사용자 생성 DTO")
@@ -17,22 +19,19 @@ public class CreateUserDto {
 
     private String profileName;
 
-    @Schema(description = "권한", example = "ROLE_USER", hidden = true)
-    private String role = Authority.USER.getValue();
 
     @Builder
     public CreateUserDto(String userName, String password, String profileName) {
         this.userName = userName;
         this.password = password;
         this.profileName = profileName;
-        this.role = Authority.USER.getValue();
     }
 
     public User toEntity() {
         User user = User.builder()
                 .userName(userName)
                 .password(password)
-                .role(role)
+                .roles(Collections.singletonList(Authority.USER.getValue()))
                 .build();
 
         Profile profile = Profile.builder()

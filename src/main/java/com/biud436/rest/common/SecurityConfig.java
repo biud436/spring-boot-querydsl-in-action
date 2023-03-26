@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.Filter;
 import java.security.SecureRandom;
 
 @RequiredArgsConstructor
@@ -33,50 +32,31 @@ public class SecurityConfig {
     @Value("${password.salt}")
     private String passwordSalt;
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web -> web.ignoring().antMatchers("/swagger-ui/**"));
-//    }
-
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-//        http
-//                .authorizeRequests()
-//                .anyRequest().authenticated();
-//
-//        http
-//                .formLogin();
-
-//        http.cors().disable()
-//                .csrf().disable()
-//                .formLogin().disable()
-//                .headers().frameOptions().disable();
-
-        http
+        return http
                 .httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용 X
                 .and()
                 .authorizeRequests()
+                .antMatchers("/api/test").hasRole("USER")
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/v3/api-docs/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
-                // /api/users 제외
-                .antMatchers("/api/users/**").permitAll();
-
-
-        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
-
-        Filter authFilter = new JwtAuthenticationFilter(jwtTokenProvider);
-        http
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
-
-
-        return http.build();
+                .antMatchers("/api/users/**").permitAll()
+                .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/login2").permitAll()
+                // 나머지 요청은 인증된 사용자만 접근 가능 그리고 권한은 ROLE_USER
+                .anyRequest().authenticated()
+                .and()
+                // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter전에 추가
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean

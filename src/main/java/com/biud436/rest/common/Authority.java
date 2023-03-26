@@ -1,8 +1,9 @@
 package com.biud436.rest.common;
 
 public enum Authority {
-    USER("ROLE_USER"),
-    ADMIN("ROLE_ADMIN");
+    USER("USER"),
+    ADMIN("ADMIN"),
+    GUEST("GUEST");
 
     private final String value;
 

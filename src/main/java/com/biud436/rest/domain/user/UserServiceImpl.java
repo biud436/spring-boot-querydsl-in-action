@@ -16,7 +16,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     @Transactional
     @Override
     public void createUser(User user) {
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
         return Optional.ofNullable(UserInfoDto.builder()
                 .id(user.getId())
-                .userName(user.getUserName())
+                .userName(user.getUsername())
                 .role(Authority.USER.getValue())
                 .build());
     }

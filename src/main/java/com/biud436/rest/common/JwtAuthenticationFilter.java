@@ -1,22 +1,29 @@
 package com.biud436.rest.common;
 
 import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+@RequiredArgsConstructor
+// public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final JwtTokenProvider jwtTokenProvider;
-
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+//
+//    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+//        super();
+//        this.jwtTokenProvider = jwtTokenProvider;
+//    }
 
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
@@ -26,33 +33,47 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+//            throws ServletException, IOException {
+//        try {
+//            String token = resolveToken(request);
+//            boolean isValidToken = StringUtils.hasText(token) &&
+//                    jwtTokenProvider.verifyJWT(token);
+//
+//            if (isValidToken) {
+//                // JWT 디코딩
+//                Claims claims = jwtTokenProvider.getClaimsFromToken(token);
+//                String role = claims.get("roles", String.class);
+//                String id = claims.get("id", String.class);
+//
+//                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//                SecurityContextHolder.getContext().setAuthentication(
+//                        authentication
+//                );
+//            }
+//        } catch (Exception ex) {
+//            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
+//        }
+//
+//        filterChain.doFilter(request, response);
+//    }
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        try {
-            String jwt = resolveToken(request);
-            boolean isValidToken = StringUtils.hasText(jwt) &&
-                    jwtTokenProvider.verifyJWT(jwt);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String token = resolveToken((HttpServletRequest) request);
+        boolean isValidToken = StringUtils.hasText(token) &&
+                jwtTokenProvider.verifyJWT(token);
 
-            if (isValidToken) {
-                // JWT 디코딩
-                Claims claims = jwtTokenProvider.getClaimsFromToken(jwt);
-                String role = claims.get("role", String.class);
-
-                // role 값 검증
-                if (StringUtils.hasText(role) && role.equals("ROLE_ADMIN")) {
-                    // ROLE_ADMIN인 경우
-                } else {
-                    // 403 Forbidden 응답 반환
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
-                    return;
-                }
-            }
-        } catch (Exception ex) {
-            // 예외 처리
-            // ...
+        if (isValidToken) {
+            // JWT 디코딩
+            Claims claims = jwtTokenProvider.getClaimsFromToken(token);
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(
+                    authentication
+            );
         }
 
-        filterChain.doFilter(request, response);
+        chain.doFilter(request, response);
     }
 }

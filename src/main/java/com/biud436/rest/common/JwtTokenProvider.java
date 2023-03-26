@@ -2,14 +2,24 @@ package com.biud436.rest.common;
 
 import com.biud436.rest.domain.user.UserInfoDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -32,7 +42,7 @@ public class JwtTokenProvider {
         return secretKey.getBytes(StandardCharsets.UTF_8);
     }
 
-    public String generateToken(UserInfoDto data, List<String> roles) {
+    public String generateToken(UserInfoDto data, Authority authority) {
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
@@ -44,15 +54,40 @@ public class JwtTokenProvider {
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("id", data.getId());
+        payload.put("role", authority.getValue());
 
         String jwt = Jwts.builder()
                 .setClaims(payload)
                 .setIssuedAt(iat)
                 .setExpiration(ext)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, getBytesFromSecretKey())
                 .compact();
 
         return jwt;
+    }
+
+    public TokenInfo generateToken(Authentication authentication) {
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        Date iat = new Date();
+        Date ext = new Date();
+        ext.setTime(iat.getTime() + exp);
+
+        String accessToken = Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim("roles", authorities)
+                .claim("id", authentication.getName())
+                .setIssuedAt(iat)
+                .setExpiration(ext)
+                .signWith(SignatureAlgorithm.HS256, getBytesFromSecretKey())
+                .compact();
+
+        return TokenInfo.builder()
+                .grantType("Bearer")
+                .accessToken(accessToken)
+                .build();
     }
 
     public Optional<UserInfoDto> decode(String jwt) {
@@ -78,13 +113,17 @@ public class JwtTokenProvider {
     public boolean verifyJWT(String jwt) {
         boolean isVerify = false;
 
+        // log
+        System.out.println("verifyJWT : " + jwt);
+
         try {
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(getBytesFromSecretKey())
-                    .parseClaimsJws(jwt);
-            isVerify = !claimsJws.getBody().getExpiration().before(new Date());
+            isVerify = getClaimsFromToken(jwt) != null;
+
+
         } catch (ExpiredJwtException e) {
             isVerify = false;
         } catch (Exception e) {
+            e.printStackTrace();
             isVerify = false;
         }
 
@@ -93,5 +132,23 @@ public class JwtTokenProvider {
 
     public Claims getClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(getBytesFromSecretKey()).parseClaimsJws(token).getBody();
+    }
+
+    public Authentication getAuthentication(String token) {
+        Claims claims = getClaimsFromToken(token);
+
+        Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get("roles").toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+        UserDetails principal = new User(
+                claims.get("id", String.class),
+                "",
+                authorities
+        );
+
+
+        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 }
