@@ -40,4 +40,10 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false, name = "ROLE")
     private String role;
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+        profile.setUser(this);
+    }
 }
+

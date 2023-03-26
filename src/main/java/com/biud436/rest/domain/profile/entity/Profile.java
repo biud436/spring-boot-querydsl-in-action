@@ -25,4 +25,9 @@ public class Profile extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "profile")
     private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+        user.setProfile(this);
+    }
 }

@@ -5,6 +5,7 @@ import com.biud436.rest.domain.user.UserService;
 import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.web.api.dto.CreatePostDto;
 import com.biud436.rest.web.api.dto.CreateUserDto;
+import com.biud436.rest.web.api.dto.UserLoginDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,6 +21,7 @@ import com.biud436.rest.web.api.dto.PostResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api")
@@ -68,5 +70,11 @@ public class ApiController {
         userService.createUser(user);
 
         return true;
+    }
+
+    @Operation(summary = "로그인", description = "로그인 (액세스 토큰 발급")
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody UserLoginDto userLoginDto) {
+        return apiService.login(userLoginDto);
     }
 }
