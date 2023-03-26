@@ -9,4 +9,6 @@ public interface UserService {
     void createUser(User user);
 
     Optional<UserInfoDto> validateUser(String username, String password);
+
+    boolean isExistUser(String userName);
 }
