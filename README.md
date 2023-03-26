@@ -24,8 +24,4 @@
 - 그러나 만들긴 했음.
 - 디코딩된 토큰의 roles 값에 ROLE_USER, ROLE_ADMIN 등이 있어야 함.
 - 리액트의 Context처럼, 컨텍스트에 현재 인증 상태를 저장해둬야 함. 이때 Authentication이란 걸 생성하여 전달해야 함.
-- 기본 오류는 보안 문제로 오류 메시지가 응답으로 출력되지 않는데 ControlAdvice와 ExceptionHandler로 캐치하면 오류를 반환할 수 있음
-
-## 결론
-- 동작은 하지만 스프링에서 굳이 JWT 방식으로 가는게 맞나 생각이 들었음.
-- 추후 레디스 연동 등 더 많은 작업 필요, 하지만 세션으로 가면 바로 해결되는 문제
+- 기본 오류는 보안 문제로 오류 메시지가 응답으로 출력되지 않는데 ControllerAdvice와 ExceptionHandler로 캐치하면 오류를 반환할 수 있음
