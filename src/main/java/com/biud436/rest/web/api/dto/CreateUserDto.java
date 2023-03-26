@@ -1,5 +1,6 @@
 package com.biud436.rest.web.api.dto;
 
+import com.biud436.rest.common.Authority;
 import com.biud436.rest.domain.profile.entity.Profile;
 import com.biud436.rest.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,14 +18,14 @@ public class CreateUserDto {
     private String profileName;
 
     @Schema(description = "권한", example = "ROLE_USER", hidden = true)
-    private String role;
+    private String role = Authority.USER.getValue();
 
     @Builder
-    public CreateUserDto(String userName, String password, String profileName, String role) {
+    public CreateUserDto(String userName, String password, String profileName) {
         this.userName = userName;
         this.password = password;
         this.profileName = profileName;
-        this.role = role;
+        this.role = Authority.USER.getValue();
     }
 
     public User toEntity() {

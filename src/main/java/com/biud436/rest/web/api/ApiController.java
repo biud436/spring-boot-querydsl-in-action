@@ -1,11 +1,13 @@
 package com.biud436.rest.web.api;
 
 import com.biud436.rest.domain.post.MyPostService;
+import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.user.UserService;
 import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.web.api.dto.CreatePostDto;
 import com.biud436.rest.web.api.dto.CreateUserDto;
 import com.biud436.rest.web.api.dto.UserLoginDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -13,10 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import com.biud436.rest.domain.post.entity.MyPost;
-import com.biud436.rest.domain.post.MyPostServiceImpl;
-import com.biud436.rest.web.api.dto.PostResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,7 +72,7 @@ public class ApiController {
 
     @Operation(summary = "로그인", description = "로그인 (액세스 토큰 발급")
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<String> login(@RequestBody UserLoginDto userLoginDto) throws JsonProcessingException {
         return apiService.login(userLoginDto);
     }
 }

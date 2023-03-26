@@ -16,7 +16,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Profile extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PROFILE_ID")
     private Long id;
 
@@ -26,8 +27,4 @@ public class Profile extends BaseTimeEntity {
     @OneToOne(mappedBy = "profile")
     private User user;
 
-    public void setUser(User user) {
-        this.user = user;
-        user.setProfile(this);
-    }
 }

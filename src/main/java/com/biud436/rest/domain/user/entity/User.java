@@ -2,14 +2,12 @@ package com.biud436.rest.domain.user.entity;
 
 import com.biud436.rest.domain.common.entity.BaseTimeEntity;
 import com.biud436.rest.domain.post.entity.MyPost;
-
 import com.biud436.rest.domain.profile.entity.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import java.util.List;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -20,7 +18,8 @@ import javax.persistence.*;
 @Data
 public class User extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
     private Long id;
 
@@ -40,10 +39,5 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false, name = "ROLE")
     private String role;
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-        profile.setUser(this);
-    }
 }
 

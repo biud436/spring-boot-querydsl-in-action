@@ -2,9 +2,11 @@ package com.biud436.rest.web.api;
 
 import com.biud436.rest.common.Authority;
 import com.biud436.rest.common.JwtTokenProvider;
+import com.biud436.rest.common.ResponseData;
 import com.biud436.rest.domain.user.UserInfoDto;
 import com.biud436.rest.domain.user.UserService;
 import com.biud436.rest.web.api.dto.UserLoginDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class ApiService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
-    public ResponseEntity<Map<String, Object>> login(UserLoginDto loginDto) {
+    public ResponseEntity<String> login(UserLoginDto loginDto) throws JsonProcessingException {
 
         List<String> roles = new ArrayList<>();
         roles.add(Authority.USER.getValue());
@@ -36,11 +38,13 @@ public class ApiService {
         // 유저 정보 가져오기
         Optional<UserInfoDto> userInfoDto = userService.validateUser(loginDto.getUserName(), loginDto.getPassword());
 
-        Map<String, Object> map = new HashMap<>();
-
         String accessToken = jwtTokenProvider.generateToken(userInfoDto.get(), roles);
-        map.put("accessToken", accessToken);
 
-        return ResponseEntity.ok().body(map);
+        Map<String, Object> token = new HashMap<>();
+        token.put("accessToken", accessToken);
+        
+        ResponseData<?> data = new ResponseData<>(200, "로그인 성공", token);
+
+        return ResponseEntity.ok(data.toJson());
     }
 }

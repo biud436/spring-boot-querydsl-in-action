@@ -1,6 +1,8 @@
 package com.biud436.rest.common;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -9,19 +11,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.Filter;
+import java.security.SecureRandom;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -30,7 +27,11 @@ import javax.servlet.http.HttpSession;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class SecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Value("${password.salt}")
+    private String passwordSalt;
 
 //    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
@@ -48,17 +49,39 @@ public class SecurityConfig {
 //        http
 //                .formLogin();
 
-        http.cors().disable()
+//        http.cors().disable()
+//                .csrf().disable()
+//                .formLogin().disable()
+//                .headers().frameOptions().disable();
+
+        http
+                .httpBasic().disable()
                 .csrf().disable()
-                .formLogin().disable()
-                .headers().frameOptions().disable();
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                // /api/users 제외
+                .antMatchers("/api/users/**").permitAll();
+
+
+        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+
+        Filter authFilter = new JwtAuthenticationFilter(jwtTokenProvider);
+        http
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(10, new SecureRandom(passwordSalt.getBytes()));
     }
 
 }

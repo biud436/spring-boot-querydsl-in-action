@@ -28,12 +28,9 @@ public class UserServiceImpl implements UserService {
     public Optional<UserInfoDto> validateUser(String userName, String password) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-
-        // 단뱡향 암호화 처리
-        String encodedPassword = passwordEncoder.encode(password);
-
+        
         // 비밀번호 일치 여부 확인
-        if (!user.getPassword().equals(encodedPassword)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 

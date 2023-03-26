@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class JwtTokenProvider {
     public static final Long MINUTE = 1000 * 60L;
     public static final Long HOUR = 1000 * 60L * 60L;
 
-    private long exp = HOUR * 2L;
+    private final long exp = HOUR * 2L;
 
     @PostConstruct
     protected void initialize() {
@@ -90,5 +89,9 @@ public class JwtTokenProvider {
         }
 
         return isVerify;
+    }
+
+    public Claims getClaimsFromToken(String token) {
+        return Jwts.parser().setSigningKey(getBytesFromSecretKey()).parseClaimsJws(token).getBody();
     }
 }
