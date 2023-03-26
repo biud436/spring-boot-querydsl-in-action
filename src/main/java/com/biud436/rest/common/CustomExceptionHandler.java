@@ -15,7 +15,9 @@ public class CustomExceptionHandler {
     public ResponseEntity<Object> handleIllegalArgumentException(
             IllegalArgumentException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        body.put("status", status.value());
         body.put("message", ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, status);
     }
 }
