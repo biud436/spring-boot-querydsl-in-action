@@ -18,6 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -36,6 +38,16 @@ public class SecurityConfig {
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        List<String> permitAllList = Arrays.asList(
+                "/api/**",
+                "/swagger-ui/**",
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/api/users/**",
+                "/api/login",
+                "/api/login2");
+
         return http
                 .httpBasic().disable()
                 .csrf().disable()
@@ -43,18 +55,9 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/test").hasRole("USER")
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/v3/api-docs/**").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/api/users/**").permitAll()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/login2").permitAll()
-                // 나머지 요청은 인증된 사용자만 접근 가능 그리고 권한은 ROLE_USER
+                .antMatchers(permitAllList.toArray(new String[permitAllList.size()])).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter전에 추가
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
