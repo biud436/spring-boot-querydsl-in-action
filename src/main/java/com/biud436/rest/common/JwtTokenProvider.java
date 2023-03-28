@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.lang.Strings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,10 +29,11 @@ public class JwtTokenProvider {
     @Value("jwt.access-secret")
     private String secretKey;
 
-    public static final Long MINUTE = 1000 * 60L;
-    public static final Long HOUR = 1000 * 60L * 60L;
+    public static final Long MINUTE = 60L;
+    public static final Long HOUR = 60L * 60L;
 
-    private final long exp = HOUR * 2L;
+    //    @Value("jwt.access-expiration")
+    private final String accessExpiration = "14d";
 
     @PostConstruct
     protected void initialize() {
@@ -42,6 +44,35 @@ public class JwtTokenProvider {
         return secretKey.getBytes(StandardCharsets.UTF_8);
     }
 
+    public long convertTimeToLong(String time) {
+        long result = 0L;
+        time = time.trim();
+        time = time.replaceAll("\\s", "");
+
+        if (!Strings.hasText(time)) {
+            time = time.replaceAll("[^0-9]", "");
+            result = Long.parseLong(time);
+
+            return result;
+        }
+
+        if (time.contains("m")) {
+            result = Long.parseLong(time.replace("m", "")) * MINUTE;
+        } else if (time.contains("h")) {
+            result = Long.parseLong(time.replace("h", "")) * HOUR;
+        } else if (time.contains("d")) {
+            result = Long.parseLong(time.replace("d", "")) * HOUR * 24L;
+        } else if (time.contains("w")) {
+            result = Long.parseLong(time.replace("w", "")) * HOUR * 24L * 7L;
+        } else if (time.contains("M")) {
+            result = Long.parseLong(time.replace("M", "")) * HOUR * 24L * 30L;
+        } else if (time.contains("y")) {
+            result = Long.parseLong(time.replace("y", "")) * HOUR * 24L * 365L;
+        }
+
+        return result;
+    }
+
     public String generateToken(UserInfoDto data, Authority authority) {
 
         Map<String, Object> headers = new HashMap<>();
@@ -50,6 +81,8 @@ public class JwtTokenProvider {
 
         Date iat = new Date();
         Date ext = new Date();
+
+        long exp = convertTimeToLong(accessExpiration) * 1000L;
         ext.setTime(iat.getTime() + exp);
 
         Map<String, Object> payload = new HashMap<>();
@@ -73,6 +106,7 @@ public class JwtTokenProvider {
 
         Date iat = new Date();
         Date ext = new Date();
+        long exp = convertTimeToLong(accessExpiration) * 1000L;
         ext.setTime(iat.getTime() + exp);
 
         String accessToken = Jwts.builder()
@@ -113,13 +147,8 @@ public class JwtTokenProvider {
     public boolean verifyJWT(String jwt) {
         boolean isVerify = false;
 
-        // log
-        System.out.println("verifyJWT : " + jwt);
-
         try {
             isVerify = getClaimsFromToken(jwt) != null;
-
-
         } catch (ExpiredJwtException e) {
             isVerify = false;
         } catch (Exception e) {
@@ -147,7 +176,6 @@ public class JwtTokenProvider {
                 "",
                 authorities
         );
-
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
