@@ -39,6 +39,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         List<String> permitAllList = Arrays.asList(
+                "/",
                 "/api/**",
                 "/swagger-ui/**",
                 "/v3/api-docs/**",

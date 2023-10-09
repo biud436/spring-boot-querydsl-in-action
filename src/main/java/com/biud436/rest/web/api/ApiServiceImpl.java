@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -101,7 +102,7 @@ public class ApiServiceImpl implements ApiService {
         return ResponseEntity.ok(data.toJson());
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public TokenInfo login2(UserLoginDto loginDto) {
         List<String> roles = new ArrayList<>();
 
