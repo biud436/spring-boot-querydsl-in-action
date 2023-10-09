@@ -68,42 +68,8 @@ public class ApiServiceImpl implements ApiService {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * @param loginDto
-     * @return
-     * @throws JsonProcessingException
-     * @deprecated
-     */
-    public ResponseEntity<String> login(UserLoginDto loginDto) throws JsonProcessingException {
-
-        List<String> roles = new ArrayList<>();
-
-        String password = loginDto.getPassword();
-        int lenOfPassword = password.length();
-
-        if (loginDto.getUserName() == null || password == null) {
-            throw new IllegalArgumentException("아이디와 비밀번호를 입력해주세요.");
-        }
-
-        if (lenOfPassword < 8 || lenOfPassword > 16) {
-            throw new IllegalArgumentException("비밀번호는 8자 이상 16자 이하로 입력해주세요.");
-        }
-
-        // 유저 정보 가져오기
-        Optional<UserInfoDto> userInfoDto = userService.validateUser(loginDto.getUserName(), loginDto.getPassword());
-
-        String accessToken = jwtTokenProvider.generateToken(userInfoDto.get(), Authority.USER);
-
-        Map<String, Object> token = new HashMap<>();
-        token.put("accessToken", accessToken);
-
-        ResponseData<?> data = new ResponseData<>(200, "로그인 성공", token);
-
-        return ResponseEntity.ok(data.toJson());
-    }
-
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
-    public TokenInfo login2(UserLoginDto loginDto) {
+    public TokenInfo login(UserLoginDto loginDto) {
         List<String> roles = new ArrayList<>();
 
         String password = loginDto.getPassword();

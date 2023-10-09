@@ -40,14 +40,14 @@ public class SecurityConfig {
 
         List<String> permitAllList = Arrays.asList(
                 "/",
-                "/api/**",
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
                 "/swagger-ui.html",
                 "/api/users/**",
                 "/api/login",
-                "/api/login2");
+                "/api/posts/**"
+        );
 
         return http
                 .httpBasic().disable()
@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 사용 X
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/test").hasRole("USER")
+                .antMatchers("/api/posts").hasRole("USER")
                 .antMatchers(permitAllList.toArray(new String[permitAllList.size()])).permitAll()
                 .anyRequest().authenticated()
                 .and()

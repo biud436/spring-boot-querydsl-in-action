@@ -9,7 +9,5 @@ import org.springframework.http.ResponseEntity;
 public interface ApiService {
     ResponseEntity<?> createUser(CreateUserDto createUserDto);
 
-    ResponseEntity<String> login(UserLoginDto loginDto) throws JsonProcessingException;
-    
-    TokenInfo login2(UserLoginDto loginDto);
+    TokenInfo login(UserLoginDto loginDto);
 }

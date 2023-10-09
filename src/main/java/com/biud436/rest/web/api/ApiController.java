@@ -40,6 +40,13 @@ public class ApiController {
         return myPostService.findByTitle(title);
     }
 
+    @Operation(summary = "포스트 번호로 조회", description = "특정 번호의 포스트를 검색합니다.")
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<MyPost> getPostById(@PathVariable Long id) {
+        return myPostService.findById(id);
+    }
+
+    // 로그인 해야만 접근 가능한 API
     @Operation(summary = "포스트 저장", description = "새로운 포스트를 저장합니다")
     @PostMapping("/posts")
     public ResponseEntity<MyPost> savePost(@RequestBody CreatePostDto postDto) {
@@ -52,38 +59,15 @@ public class ApiController {
         return apiService.createUser(createUserDto);
     }
 
-    @Operation(summary = "로그인", description = "로그인 (액세스 토큰 발급")
+    @Operation(summary = "로그인", description = "로그인 (액세스 토큰 발급)")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginDto userLoginDto) throws JsonProcessingException {
-        return apiService.login(userLoginDto);
-    }
-
-    @Operation(summary = "로그인2", description = "로그인 (액세스 토큰 발급")
-    @PostMapping("/login2")
     public ResponseEntity<String> login2(@RequestBody UserLoginDto userLoginDto) throws JsonProcessingException {
-        TokenInfo tokenInfo = apiService.login2(userLoginDto);
+        TokenInfo tokenInfo = apiService.login(userLoginDto);
         ResponseData<TokenInfo> res = ResponseData
                 .<TokenInfo>builder()
                 .data(tokenInfo)
                 .build();
 
         return ResponseEntity.ok().body(res.toJson());
-    }
-
-    @Operation(
-            summary = "테스트",
-            description = "테스트"
-    )
-    @SecurityRequirement(name = "bearerAuth")
-    @Secured("ROLE_USER")
-    @GetMapping("/test")
-    public String test() throws JsonProcessingException {
-        ResponseData<String> res = ResponseData
-                .<String>builder()
-                .data("test")
-                .build();
-
-        return res.toJson();
-
     }
 }

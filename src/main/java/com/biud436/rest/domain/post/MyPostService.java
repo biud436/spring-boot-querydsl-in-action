@@ -10,4 +10,6 @@ import java.util.List;
 public interface MyPostService {
     ResponseEntity<List<MyPost>> findByTitle(String title);
     MyPost save(CreatePostDto postDto);
+
+    ResponseEntity<MyPost> findById(Long id);
 }

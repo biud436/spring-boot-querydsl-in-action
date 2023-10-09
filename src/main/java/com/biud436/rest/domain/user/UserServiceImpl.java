@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void createUser(User user) {
         userRepository.save(user);
@@ -27,11 +27,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserInfoDto> validateUser(String userName, String password) {
         User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
 
-        // 비밀번호 일치 여부 확인
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        if (!isMatchPassword(password, user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         return Optional.ofNullable(UserInfoDto.builder()
@@ -39,6 +38,17 @@ public class UserServiceImpl implements UserService {
                 .userName(user.getUsername())
                 .role(Authority.USER.getValue())
                 .build());
+    }
+
+    /**
+     * 비밀번호가 일치하는지 확인합니다.
+     *
+     * @param password
+     * @param encodedPassword
+     * @return
+     */
+    private boolean isMatchPassword(String password, String encodedPassword) {
+        return passwordEncoder.matches(password, encodedPassword);
     }
 
     public boolean isExistUser(String userName) {
