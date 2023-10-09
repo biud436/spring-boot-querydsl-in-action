@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -42,15 +43,14 @@ public class ApiController {
 
     @Operation(summary = "포스트 번호로 조회", description = "특정 번호의 포스트를 검색합니다.")
     @GetMapping("/posts/{id}")
-    public ResponseEntity<MyPost> getPostById(@PathVariable Long id) {
+    public Optional<MyPost> getPostById(@PathVariable Long id) {
         return myPostService.findById(id);
     }
 
-    // 로그인 해야만 접근 가능한 API
     @Operation(summary = "포스트 저장", description = "새로운 포스트를 저장합니다")
     @PostMapping("/posts")
-    public ResponseEntity<MyPost> savePost(@RequestBody CreatePostDto postDto) {
-        return ResponseEntity.ok(myPostService.save(postDto));
+    public MyPost savePost(@RequestBody CreatePostDto postDto) {
+        return myPostService.save(postDto);
     }
 
     @Operation(summary = "회원 가입", description = "회원 가입 (테스트)")

@@ -11,7 +11,10 @@ import com.biud436.rest.web.api.dto.CreateUserDto;
 import com.biud436.rest.web.api.dto.UserLoginDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,6 +29,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class ApiServiceImpl implements ApiService {
+
     private final JwtTokenProvider jwtTokenProvider;
 
     private final PasswordEncoder passwordEncoder;
@@ -68,6 +72,7 @@ public class ApiServiceImpl implements ApiService {
         return ResponseEntity.ok().build();
     }
 
+    @NonNull
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public TokenInfo login(UserLoginDto loginDto) {
         List<String> roles = new ArrayList<>();

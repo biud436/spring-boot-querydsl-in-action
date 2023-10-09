@@ -4,14 +4,12 @@ import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.post.repository.MyPostRepository;
 import com.biud436.rest.web.api.dto.CreatePostDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-
-import com.biud436.rest.web.api.dto.PostResponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +31,11 @@ public class MyPostServiceImpl implements MyPostService {
         return postRepository.save(postDto.toEntity());
     }
 
+    @Nullable
     @Transactional(readOnly = true)
-    public ResponseEntity<MyPost> findById(Long id) {
+    public Optional<MyPost> findById(Long id) {
         MyPost post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("포스트를 찾을 수 없습니다"));
 
-        return ResponseEntity.ok().body(post);
+        return Optional.ofNullable(post);
     }
 }
