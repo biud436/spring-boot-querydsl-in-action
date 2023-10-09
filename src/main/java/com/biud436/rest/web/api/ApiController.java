@@ -2,6 +2,8 @@ package com.biud436.rest.web.api;
 
 import com.biud436.rest.common.ResponseData;
 import com.biud436.rest.common.TokenInfo;
+import com.biud436.rest.common.UserInfo;
+import com.biud436.rest.common.UserOnly;
 import com.biud436.rest.domain.post.MyPostService;
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.user.UserService;
@@ -14,9 +16,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.http.SecurityHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,5 +74,12 @@ public class ApiController {
                 .build();
 
         return ResponseEntity.ok().body(res.toJson());
+    }
+
+    @Operation(summary = "유저", description = "유저 정보")
+    @GetMapping("/test")
+    @UserOnly
+    public ResponseEntity<String> test(@UserInfo Principal userInfo) {
+        return ResponseEntity.ok().body("현재 인증된 사용자는 " + userInfo.getName() + " 입니다.");
     }
 }

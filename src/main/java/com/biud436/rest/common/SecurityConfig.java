@@ -46,7 +46,8 @@ public class SecurityConfig {
                 "/swagger-ui.html",
                 "/api/users/**",
                 "/api/login",
-                "/api/posts/**"
+                "/api/posts/**",
+                "/api/test"
         );
 
         return http
