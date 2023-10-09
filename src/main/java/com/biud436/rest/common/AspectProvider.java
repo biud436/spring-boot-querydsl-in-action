@@ -1,5 +1,7 @@
 package com.biud436.rest.common;
 
+import com.biud436.rest.domain.user.UserService;
+import com.biud436.rest.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -9,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AspectProvider {
 
+    private final UserService userService;
 
     @Around("@annotation(LogTime)")
     public Object logTime(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -49,20 +53,6 @@ public class AspectProvider {
         }
 
         Object proceed = joinPoint.proceed();
-
-        return proceed;
-    }
-
-    // Parameter Annotation
-    @Around("@annotation(UserInfo)")
-    public Object getUserInfo(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object userInfo = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        List<Object> args = new ArrayList<>();
-        args.add(userInfo);
-        args.addAll(Arrays.asList(joinPoint.getArgs()));
-
-        Object proceed = joinPoint.proceed(args.toArray());
 
         return proceed;
     }

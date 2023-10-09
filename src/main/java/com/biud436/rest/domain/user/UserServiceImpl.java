@@ -55,4 +55,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserName(userName).isPresent();
     }
 
+
+    public User findByUserName(String userName) {
+
+        System.out.println("userName : " + userName);
+
+        return userRepository.findByUserName(userName)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
+    }
+
 }

@@ -11,4 +11,6 @@ public interface UserService {
     Optional<UserInfoDto> validateUser(String username, String password);
 
     boolean isExistUser(String userName);
+
+    User findByUserName(String userName);
 }
