@@ -9,6 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Aspect
 @Component
 @RequiredArgsConstructor
@@ -54,7 +58,11 @@ public class AspectProvider {
     public Object getUserInfo(ProceedingJoinPoint joinPoint) throws Throwable {
         Object userInfo = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Object proceed = joinPoint.proceed(new Object[]{userInfo});
+        List<Object> args = new ArrayList<>();
+        args.add(userInfo);
+        args.addAll(Arrays.asList(joinPoint.getArgs()));
+
+        Object proceed = joinPoint.proceed(args.toArray());
 
         return proceed;
     }
