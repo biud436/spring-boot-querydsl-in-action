@@ -2,15 +2,18 @@ package com.biud436.rest.web.api;
 
 import com.biud436.rest.common.ResponseData;
 import com.biud436.rest.common.TokenInfo;
+import com.biud436.rest.common.UserInfo;
 import com.biud436.rest.common.UserOnly;
 import com.biud436.rest.domain.post.MyPostService;
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.user.UserService;
+import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.web.api.dto.CreatePostDto;
 import com.biud436.rest.web.api.dto.CreateUserDto;
 import com.biud436.rest.web.api.dto.UserLoginDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,9 +75,10 @@ public class ApiController {
     }
 
     @Operation(summary = "유저", description = "유저 정보")
+
     @GetMapping("/test")
     @UserOnly
-    public ResponseEntity<String> test(Principal userInfo) {
-        return ResponseEntity.ok().body("현재 인증된 사용자는 " + userInfo.getName() + " 입니다.");
+    public ResponseEntity<String> test(@UserInfo User user) {
+        return ResponseEntity.ok().body("현재 인증된 사용자는 " + user.getUsername() + " 입니다.");
     }
 }
