@@ -1,6 +1,6 @@
 # 소개
 
-스프링 부트를 이용한 REST API 서버를 만들어보았습니다.
+스프링 부트를 이용한 REST API 서버
 
 # 기술 스택
 
@@ -24,3 +24,9 @@
 - 디코딩된 토큰의 roles 값에 ROLE_USER, ROLE_ADMIN 등이 있어야 함.
 - 리액트의 Context처럼, 컨텍스트에 현재 인증 상태를 저장해둬야 함. 이때 Authentication이란 걸 생성하여 전달해야 함.
 - 기본 오류는 보안 문제로 오류 메시지가 응답으로 출력되지 않는데 ControllerAdvice와 ExceptionHandler로 캐치하면 오류를 반환할 수 있음
+
+# 2023.10.09
+
+- HandlerMethodArgumentResolver를 이용한 스프링 시큐리티의 인증 정보를 유저 정보로 변환하여 저장하는 처리를 하였다. `@UserInfo` 어노테이션이 있을 경우, 유저 정보가 메개변수로 주입된다.
+- `@Aspect`와 `@Around`를 이용하여 `@LogTime`어노테이션을 만들었다. 또한 이를 이용하여 스프링 시큐리티의 인증 정보를 가져와 `@UserOnly` 어노테이션 생성하였다.
+-  트랜잭션 전파 속성과 readOnly를 추가하였다.
