@@ -1,9 +1,6 @@
 package com.biud436.rest.web.api;
 
-import com.biud436.rest.common.Authority;
-import com.biud436.rest.common.JwtTokenProvider;
-import com.biud436.rest.common.ResponseData;
-import com.biud436.rest.common.TokenInfo;
+import com.biud436.rest.common.*;
 import com.biud436.rest.domain.user.UserInfoDto;
 import com.biud436.rest.domain.user.UserService;
 import com.biud436.rest.domain.user.entity.User;
@@ -74,6 +71,7 @@ public class ApiServiceImpl implements ApiService {
 
     @NonNull
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    @LogTime
     public TokenInfo login(UserLoginDto loginDto) {
         List<String> roles = new ArrayList<>();
 
