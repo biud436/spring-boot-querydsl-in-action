@@ -13,8 +13,10 @@ import com.biud436.rest.web.api.dto.CreateUserDto;
 import com.biud436.rest.web.api.dto.UserLoginDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,7 +75,6 @@ public class ApiController {
     }
 
     @Operation(summary = "유저", description = "유저 정보")
-
     @GetMapping("/test")
     @UserOnly
     public ResponseEntity<String> test(@UserInfo User user) {

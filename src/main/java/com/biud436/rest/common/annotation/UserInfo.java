@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
 @Parameter(hidden = true)
+// @AuthenticationPrincipal
 public @interface UserInfo {
 }

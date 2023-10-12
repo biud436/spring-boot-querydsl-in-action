@@ -17,7 +17,7 @@ public class AspectProvider {
 
     private final UserService userService;
 
-    @Around("@annotation(LogTime)")
+    @Around("@annotation(com.biud436.rest.common.annotation.LogTime)")
     public Object logTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
 
@@ -30,7 +30,7 @@ public class AspectProvider {
         return proceed;
     }
 
-    @Around("@annotation(UserOnly)")
+    @Around("@annotation(com.biud436.rest.common.annotation.UserOnly)")
     public Object userOnly(ProceedingJoinPoint joinPoint) throws Throwable {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
