@@ -1,4 +1,4 @@
-package com.biud436.rest.common;
+package com.biud436.rest.common.security;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

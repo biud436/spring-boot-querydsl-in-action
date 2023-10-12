@@ -1,4 +1,4 @@
-package com.biud436.rest.common;
+package com.biud436.rest.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

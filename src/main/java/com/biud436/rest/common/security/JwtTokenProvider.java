@@ -1,6 +1,6 @@
-package com.biud436.rest.common;
+package com.biud436.rest.common.security;
 
-import com.biud436.rest.domain.user.UserInfoDto;
+import com.biud436.rest.domain.user.dto.UserInfoDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

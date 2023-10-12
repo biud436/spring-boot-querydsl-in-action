@@ -1,8 +1,8 @@
-package com.biud436.rest.common;
+package com.biud436.rest.common.resolver;
 
-import com.biud436.rest.domain.user.UserService;
+import com.biud436.rest.common.annotation.UserInfo;
+import com.biud436.rest.domain.user.service.UserService;
 import com.biud436.rest.domain.user.entity.User;
-import com.sun.security.auth.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-
-import java.security.Principal;
 
 @Component
 @RequiredArgsConstructor

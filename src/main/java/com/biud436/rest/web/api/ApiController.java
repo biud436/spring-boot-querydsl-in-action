@@ -1,25 +1,23 @@
 package com.biud436.rest.web.api;
 
 import com.biud436.rest.common.ResponseData;
-import com.biud436.rest.common.TokenInfo;
-import com.biud436.rest.common.UserInfo;
-import com.biud436.rest.common.UserOnly;
-import com.biud436.rest.domain.post.MyPostService;
+import com.biud436.rest.common.security.TokenInfo;
+import com.biud436.rest.common.annotation.UserInfo;
+import com.biud436.rest.common.annotation.UserOnly;
+import com.biud436.rest.domain.post.service.MyPostService;
 import com.biud436.rest.domain.post.entity.MyPost;
-import com.biud436.rest.domain.user.UserService;
+import com.biud436.rest.domain.user.service.UserService;
 import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.web.api.dto.CreatePostDto;
 import com.biud436.rest.web.api.dto.CreateUserDto;
 import com.biud436.rest.web.api.dto.UserLoginDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package com.biud436.rest.web.api.dto;
 
-import com.biud436.rest.common.Authority;
+import com.biud436.rest.common.security.Authority;
 import com.biud436.rest.domain.profile.entity.Profile;
 import com.biud436.rest.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;

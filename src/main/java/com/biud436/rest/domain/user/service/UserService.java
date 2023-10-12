@@ -1,5 +1,6 @@
-package com.biud436.rest.domain.user;
+package com.biud436.rest.domain.user.service;
 
+import com.biud436.rest.domain.user.dto.UserInfoDto;
 import com.biud436.rest.domain.user.entity.User;
 
 import java.util.Optional;

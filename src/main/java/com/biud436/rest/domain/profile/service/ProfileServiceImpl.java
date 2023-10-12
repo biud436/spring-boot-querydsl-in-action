@@ -1,4 +1,4 @@
-package com.biud436.rest.domain.profile;
+package com.biud436.rest.domain.profile.service;
 
 import com.biud436.rest.domain.profile.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,7 @@
-package com.biud436.rest.domain.user;
+package com.biud436.rest.domain.user.service;
 
-import com.biud436.rest.common.Authority;
+import com.biud436.rest.common.security.Authority;
+import com.biud436.rest.domain.user.dto.UserInfoDto;
 import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

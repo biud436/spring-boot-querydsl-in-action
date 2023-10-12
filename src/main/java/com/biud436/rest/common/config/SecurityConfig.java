@@ -1,5 +1,7 @@
-package com.biud436.rest.common;
+package com.biud436.rest.common.config;
 
+import com.biud436.rest.common.security.JwtAuthenticationFilter;
+import com.biud436.rest.common.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

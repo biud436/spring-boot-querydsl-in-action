@@ -1,4 +1,4 @@
-package com.biud436.rest.common;
+package com.biud436.rest.common.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

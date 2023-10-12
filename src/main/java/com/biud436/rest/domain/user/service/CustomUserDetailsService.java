@@ -1,4 +1,4 @@
-package com.biud436.rest.domain.user;
+package com.biud436.rest.domain.user.service;
 
 import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.domain.user.repository.UserRepository;

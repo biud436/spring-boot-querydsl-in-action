@@ -1,7 +1,6 @@
-package com.biud436.rest.common;
+package com.biud436.rest.common.security;
 
-import com.biud436.rest.domain.user.UserService;
-import com.biud436.rest.domain.user.entity.User;
+import com.biud436.rest.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,11 +9,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Aspect
 @Component

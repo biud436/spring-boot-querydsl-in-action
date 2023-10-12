@@ -1,4 +1,4 @@
-package com.biud436.rest.domain.post;
+package com.biud436.rest.domain.post.service;
 
 import com.biud436.rest.domain.post.entity.MyPost;
 import com.biud436.rest.domain.post.repository.MyPostRepository;

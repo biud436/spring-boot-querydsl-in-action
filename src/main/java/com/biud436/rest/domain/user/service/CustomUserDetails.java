@@ -1,4 +1,4 @@
-package com.biud436.rest.domain.user;
+package com.biud436.rest.domain.user.service;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
