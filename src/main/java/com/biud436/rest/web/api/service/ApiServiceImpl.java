@@ -1,4 +1,4 @@
-package com.biud436.rest.web.api;
+package com.biud436.rest.web.api.service;
 
 import com.biud436.rest.common.annotation.LogTime;
 import com.biud436.rest.common.security.JwtTokenProvider;
@@ -77,8 +77,12 @@ public class ApiServiceImpl implements ApiService {
         String password = loginDto.getPassword();
         int lenOfPassword = password.length();
 
-        if (loginDto.getUserName() == null || password == null) {
-            throw new IllegalArgumentException("아이디와 비밀번호를 입력해주세요.");
+        if (loginDto.getUserName() == null ) {
+            throw new IllegalArgumentException("아이디를 입력해주세요.");
+        }
+
+        if (password == null) {
+            throw new IllegalArgumentException("비밀번호를 입력해주세요.");
         }
 
         if (lenOfPassword < 8 || lenOfPassword > 16) {

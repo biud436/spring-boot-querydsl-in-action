@@ -1,6 +1,7 @@
 package com.biud436.rest.common.security;
 
 import com.biud436.rest.domain.user.dto.UserInfoDto;
+import com.biud436.rest.domain.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -8,13 +9,16 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.lang.Strings;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -34,6 +38,10 @@ public class JwtTokenProvider {
 
     //    @Value("jwt.access-expiration")
     private final String accessExpiration = "14d";
+
+    @Lazy
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @PostConstruct
     protected void initialize() {

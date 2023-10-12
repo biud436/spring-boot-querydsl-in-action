@@ -1,4 +1,4 @@
-package com.biud436.rest.web.api;
+package com.biud436.rest.web.api.service;
 
 import com.biud436.rest.common.security.TokenInfo;
 import com.biud436.rest.web.api.dto.CreateUserDto;
