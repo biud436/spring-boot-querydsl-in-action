@@ -70,7 +70,6 @@ public class ApiServiceImpl implements ApiService {
 
     @NonNull
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
-    @LogTime
     public TokenInfo login(UserLoginDto loginDto) {
         List<String> roles = new ArrayList<>();
 
