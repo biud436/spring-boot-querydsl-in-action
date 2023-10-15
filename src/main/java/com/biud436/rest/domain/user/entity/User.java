@@ -44,6 +44,8 @@ public class User extends BaseTimeEntity implements UserDetails {
     private Profile profile;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "USER_ID"))
+    @Column(name = "ROLE")
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
