@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MailService {
     private final AmazonSimpleEmailService amazonSimpleEmailService;
 
-    private void send(CreateEmailDto createEmailDto) {
+    public void send(CreateEmailDto createEmailDto) {
         final SendEmailResult sendEmailResult =
                 amazonSimpleEmailService.sendEmail(createEmailDto.toSendRequestDto());
 

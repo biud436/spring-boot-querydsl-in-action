@@ -79,4 +79,12 @@ public class ApiController {
      public ResponseEntity<String> test(@UserInfo User user) {
         return ResponseEntity.ok().body("현재 인증된 사용자는 " + user.getUsername() + " 입니다.");
     }
+
+    @Operation(summary = "테스트 메일 전송", description = "테스트 메일 전송")
+    @GetMapping("/mail")
+    public ResponseEntity<?> sendMail() {
+        apiService.sendEmailTest();
+
+        return ResponseEntity.ok().build();
+    }
 }

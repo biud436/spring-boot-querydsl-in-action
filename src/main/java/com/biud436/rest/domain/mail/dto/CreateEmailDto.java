@@ -11,7 +11,6 @@ import java.util.List;
 @Builder
 public class CreateEmailDto {
 
-    @Value("${aws.ses.from}")
     private String from;
 
     // 받는 사람 (여러 명)

@@ -9,4 +9,6 @@ public interface ApiService {
     ResponseEntity<?> createUser(CreateUserDto createUserDto);
 
     TokenInfo login(UserLoginDto loginDto);
+
+    void sendEmailTest();
 }

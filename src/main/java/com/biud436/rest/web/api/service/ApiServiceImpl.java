@@ -3,12 +3,15 @@ package com.biud436.rest.web.api.service;
 import com.biud436.rest.common.annotation.LogTime;
 import com.biud436.rest.common.security.JwtTokenProvider;
 import com.biud436.rest.common.security.TokenInfo;
+import com.biud436.rest.domain.mail.dto.CreateEmailDto;
+import com.biud436.rest.domain.mail.service.MailService;
 import com.biud436.rest.domain.user.dto.UserInfoDto;
 import com.biud436.rest.domain.user.service.UserService;
 import com.biud436.rest.domain.user.entity.User;
 import com.biud436.rest.web.api.dto.CreateUserDto;
 import com.biud436.rest.web.api.dto.UserLoginDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,12 +29,17 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ApiServiceImpl implements ApiService {
 
+    @Value("${aws.ses.from}")
+    private String from;
+
     private final JwtTokenProvider jwtTokenProvider;
 
     private final PasswordEncoder passwordEncoder;
 
     private final UserService userService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final MailService mailService;
 
     public ResponseEntity<?> createUser(@RequestBody CreateUserDto createUserDto) {
 
@@ -98,5 +106,14 @@ public class ApiServiceImpl implements ApiService {
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
         return tokenInfo;
+    }
+
+    public void sendEmailTest() {
+        mailService.send(CreateEmailDto.builder()
+                .from(from)
+                .to(Arrays.asList("biud436@naver.com"))
+                .subject("테스트 메일 제목입니다.")
+                .content("테스트 메일 내용입니다.")
+                .build());
     }
 }
