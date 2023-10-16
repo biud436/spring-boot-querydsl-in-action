@@ -13,7 +13,7 @@ public class UserLoginDto {
     @Schema(description = "사용자 이름", example = "test")
     private String userName;
 
-    @Schema(description = "비밀번호", example = "1234")
+    @Schema(description = "비밀번호", example = "testtest1aA!!")
     private String password;
 
     UserLoginDto(String userName, String password) {

@@ -8,17 +8,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Size;
 import java.util.Collections;
 
 @Getter
 @NoArgsConstructor
 @Schema(description = "사용자 생성 DTO")
 public class CreateUserDto {
+
+    @Size(min = 1, max = 50)
     private String userName;
+
+    @Size(min = 8, max = 50)
     private String password;
 
+    @Size(min = 1, max = 50)
     private String profileName;
-
 
     @Builder
     public CreateUserDto(String userName, String password, String profileName) {
