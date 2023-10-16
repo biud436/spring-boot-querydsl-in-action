@@ -37,6 +37,8 @@ dependencies {
 
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
+	implementation 'com.amazonaws:aws-java-sdk-ses:1.12.566'
+
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.7'
 
    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
