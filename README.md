@@ -6,6 +6,7 @@
 
 - Spring Boot
 - Spring Data JPA
+- Spring Data Redis
 - Spring Security
 - QueryDSL
 
