@@ -11,4 +11,6 @@ public interface ApiService {
     TokenInfo login(UserLoginDto loginDto);
 
     void sendEmailTest();
+
+    String redisTest();
 }

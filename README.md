@@ -30,3 +30,8 @@
 - HandlerMethodArgumentResolver를 이용하여 스프링 시큐리티의 인증 정보를 유저 정보로 변환하는 처리를 하였다. `@UserInfo` 어노테이션이 있을 경우, 유저 정보가 메개변수로 주입된다. HandlerMethodArgumentResolver는 NestJS의 커스텀 매개변수 데코레이터를 생성하는 방법보다 다양한 설정을 할 수 있었다. 
 - `@Aspect`와 `@Around`를 이용하여 `@LogTime`어노테이션을 만들었다. 또한 이를 이용하여 스프링 시큐리티의 인증 정보를 가져와 `@UserOnly` 어노테이션을 생성하였다. NestJS보다 강력한 AOP 기능을 제공한다.
 -  트랜잭션 전파 속성과 readOnly를 추가하였다. 다만 실제 물리 트랜잭션 로우 쿼리를 제대로 확인할 수 없는 불편함이 있었다. 
+
+# 2023.10.16
+
+- AWS SES를 이용하여 메일 보내는 기능
+- Spring Data Redis를 이용하여 레디스(Redis)를 추가하고 값을 쓰고 읽기

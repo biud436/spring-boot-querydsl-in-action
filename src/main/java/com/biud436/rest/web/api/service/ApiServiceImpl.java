@@ -5,6 +5,7 @@ import com.biud436.rest.common.security.JwtTokenProvider;
 import com.biud436.rest.common.security.TokenInfo;
 import com.biud436.rest.domain.mail.dto.CreateEmailDto;
 import com.biud436.rest.domain.mail.service.MailService;
+import com.biud436.rest.domain.redis.service.RedisService;
 import com.biud436.rest.domain.user.dto.UserInfoDto;
 import com.biud436.rest.domain.user.service.UserService;
 import com.biud436.rest.domain.user.entity.User;
@@ -40,6 +41,8 @@ public class ApiServiceImpl implements ApiService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private final MailService mailService;
+
+    private final RedisService redisService;
 
     public ResponseEntity<?> createUser(@RequestBody CreateUserDto createUserDto) {
 
@@ -96,6 +99,8 @@ public class ApiServiceImpl implements ApiService {
             throw new IllegalArgumentException("비밀번호는 8자 이상 16자 이하로 입력해주세요.");
         }
 
+        redisService.set("스프링부트테스트", "테스트입니다.");
+
         // 유저 정보 가져오기
         Optional<UserInfoDto> userInfoDto = userService.validateUser(loginDto.getUserName(), loginDto.getPassword());
 
@@ -115,5 +120,9 @@ public class ApiServiceImpl implements ApiService {
                 .subject("테스트 메일 제목입니다.")
                 .content("테스트 메일 내용입니다.")
                 .build());
+    }
+
+    public String redisTest() {
+        return redisService.get("스프링부트테스트");
     }
 }

@@ -87,4 +87,12 @@ public class ApiController {
 
         return ResponseEntity.ok().build();
     }
+
+    @Operation(summary = "테스트 Redis", description = "테스트 Redis")
+    @GetMapping("/redis")
+    public ResponseEntity<?> redisTest() {
+        String result = apiService.redisTest();
+
+        return ResponseEntity.ok().body(result);
+    }
 }
